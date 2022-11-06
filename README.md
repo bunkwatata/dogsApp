@@ -8,7 +8,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 
 ## Login to DogsApp
 
-To log in to the application, use one of the logins listed below. The password does not matter.
+To log in to the application, use one of the logins listed below. A password is required, but the value is irrelevant.
 
 - hau@appdog.pl
 - dog@appdog.pl
