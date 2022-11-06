@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     this.signInFormError = false;
 
     if (this.authService.login(this.signInForm.value)) {
-      this.router.navigate(['/dogs']);
+      this.router.navigate(['/pages']);
       return;
     }
     this.signInFormError = true;
