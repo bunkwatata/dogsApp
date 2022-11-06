@@ -1,4 +1,14 @@
 {
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=827846
-  "recommendations": ["angular.ng-template"]
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "oouo-diogo-perdigao.docthis",
+    "Gruntfuggly.todo-tree",
+    "eg2.vscode-npm-script",
+    "Angular.ng-template",
+    "nrwl.angular-console",
+    "rbbit.typescript-hero",
+    "bradlc.vscode-tailwindcss"
+  ]
 }

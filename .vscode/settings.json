@@ -1,0 +1,27 @@
+{
+  "editor.formatOnSave": true,
+  "html.format.wrapAttributes": "force-aligned",
+  "typescriptHero.imports.organizeOnSave": true,
+  "typescriptHero.imports.stringQuoteStyle": "'",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.tslint": true,
+    "source.fixAll.eslint": true
+  },
+  "typescriptHero.imports.multiLineTrailingComma": false,
+  "angular.enable-strict-mode-prompt": false
+}
