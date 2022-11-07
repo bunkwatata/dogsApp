@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DogsService } from '@data-access/dogs/dogs.service';
 import { Subscription } from 'rxjs';
@@ -17,6 +24,8 @@ export class DogsListComponent implements OnInit, OnDestroy {
   breedList!: string[];
   filtersForm: FormGroup = new FormGroup({});
   imagesUrlList: string[] = [];
+  fetchImagesCount: number = 24;
+  hasMoreImages: boolean = false;
 
   get filteredBreedList(): string[] {
     const breedFilterValue = this.filtersForm.get('breed')?.value;
@@ -28,6 +37,10 @@ export class DogsListComponent implements OnInit, OnDestroy {
     return this.breedList.filter((breed) =>
       breed.toString().toLowerCase().includes(breedFilterValue.toLowerCase())
     );
+  }
+
+  get breedFilterValue(): string {
+    return this.filtersForm.get('breed')?.value;
   }
 
   private readonly subcription: Subscription = new Subscription();
@@ -55,23 +68,51 @@ export class DogsListComponent implements OnInit, OnDestroy {
     this.subcription.unsubscribe();
   }
 
-  private onFiltersValuesChanges(filterValues: DogsFiltersFormValues): void {
-    if (
-      filterValues.breed &&
-      this.breedList.some((breed) => filterValues.breed === breed)
-    ) {
-      this.dogsService
-        .getBreedImagesList(filterValues.breed)
-        .subscribe((imagesUrlList) => {
-          this.imagesUrlList = imagesUrlList;
-          this.changeDetectorRef.markForCheck();
-        });
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    if (!this.hasMoreImages) {
+      return;
     }
+
+    const pos =
+      (document.documentElement.scrollTop || document.body.scrollTop) +
+      document.documentElement.offsetHeight;
+    const max = document.documentElement.scrollHeight;
+    if (pos === max) {
+      this.fetchBreedImages(this.breedFilterValue, false);
+    }
+  }
+
+  private onFiltersValuesChanges(filterValues: DogsFiltersFormValues): void {
+    this.fetchBreedImages(filterValues.breed, true);
   }
 
   private createFiltersForm(): void {
     this.filtersForm = this.formBuilder.group({
       breed: '',
     });
+  }
+
+  private fetchBreedImages(breed: string, isNewBreed: boolean): void {
+    if (!breed || !breed.length) {
+      this.imagesUrlList = [];
+      return;
+    }
+
+    if (!this.breedList.some((_breed) => _breed === breed)) {
+      return;
+    }
+
+    this.dogsService
+      .getBreedImagesRandomList(breed, this.fetchImagesCount)
+      .subscribe((imagesUrlList) => {
+        this.hasMoreImages = imagesUrlList.length === this.fetchImagesCount;
+        if (isNewBreed) {
+          this.imagesUrlList = imagesUrlList;
+        } else {
+          this.imagesUrlList = [...this.imagesUrlList, ...imagesUrlList];
+        }
+        this.changeDetectorRef.markForCheck();
+      });
   }
 }

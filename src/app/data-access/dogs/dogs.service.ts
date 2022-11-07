@@ -20,4 +20,15 @@ export class DogsService {
       .get<ApiResponse<string[]>>(`${environment.apiUrl}/breed/${breed}/images`)
       .pipe(map((apiResponse) => apiResponse.message));
   }
+
+  getBreedImagesRandomList(
+    breed: string,
+    count: number = 12
+  ): Observable<string[]> {
+    return this._httpClient
+      .get<ApiResponse<string[]>>(
+        `${environment.apiUrl}/breed/${breed}/images/random/${count}`
+      )
+      .pipe(map((apiResponse) => apiResponse.message));
+  }
 }
