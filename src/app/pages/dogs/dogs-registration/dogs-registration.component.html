@@ -51,6 +51,20 @@
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
+        <!-- Description -->
+        <mat-form-field appearance="standard" class="w-100">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            [rows]="6"
+            type="text"
+            placeholder="Enter description"
+            aria-label="description"
+            formControlName="description"
+          >
+          </textarea>
+        </mat-form-field>
+
         <div class="d-flex">
           <div class="ms-auto">
             <button (click)="navigateBack()" class="btn btn-secondary">

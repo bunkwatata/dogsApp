@@ -10,6 +10,7 @@ export class DogsRegistrationFormBuilder {
       email: ['', [Validators.required, Validators.email]],
       dogRegistrationNumber: ['', Validators.required],
       dogBirthDate: ['', Validators.required],
+      description: ['', Validators.nullValidator],
     });
   }
 }
