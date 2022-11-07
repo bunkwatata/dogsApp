@@ -2,6 +2,18 @@
   class="pages-header position-fixed w-100 d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow"
 >
   <h2 class="my-0 mr-md-auto font-weight-normal">{{ appName }}</h2>
+  <nav class="ps-md-5 my-2 my-md-0 mr-md-3">
+    <span
+      class="p-2 text-dark cursor-pointer nav-item"
+      [routerLink]="['/pages/dogs/list']"
+      >Dogs List</span
+    >
+    <span
+      class="p-2 text-dark cursor-pointer nav-item"
+      [routerLink]="['/pages/dogs/register']"
+      >Online Dog Registration</span
+    >
+  </nav>
   <div class="ms-auto">
     <span *ngIf="loggedName" class="me-3"> {{ loggedName }}</span>
     <a (click)="onLogout()" class="btn btn-outline-primary cursor-pointer"

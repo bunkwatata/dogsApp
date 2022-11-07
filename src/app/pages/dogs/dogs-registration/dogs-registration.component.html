@@ -1,0 +1,72 @@
+<div>
+  <h2 class="py-1 py-md-3">Dogs Registration</h2>
+
+  <div class="row justify-content-center pt-1 pt-md-3">
+    <div class="col-12 col-md-6">
+      <form
+        *ngIf="!formSubmitted; else successMessageTemplate"
+        (submit)="onSubmit()"
+        [formGroup]="registrationForm"
+      >
+        <!-- Email -->
+        <mat-form-field appearance="standard" class="w-100">
+          <mat-label>Owner email address</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Enter owner email address"
+            aria-label="email"
+            formControlName="email"
+          />
+        </mat-form-field>
+
+        <!-- Registration Number -->
+        <mat-form-field appearance="standard" class="w-100">
+          <mat-label>Registration Number</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Enter registration Number"
+            aria-label="registration Number"
+            formControlName="dogRegistrationNumber"
+          />
+        </mat-form-field>
+
+        <!-- Birth date -->
+        <mat-form-field appearance="standard" class="w-100">
+          <mat-label>Birth date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [max]="maxBirthDate"
+            type="text"
+            placeholder="Enter birth date"
+            aria-label="registration Number"
+            formControlName="dogBirthDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <div class="d-flex">
+          <div class="ms-auto">
+            <button (click)="navigateBack()" class="btn btn-secondary">
+              Cancel
+            </button>
+            <button type="submit" class="ms-1 btn btn-primary">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<ng-template #successMessageTemplate>
+  <div class="d-flex flex-column align-items-center">
+    <div class="alert alert-success w-100">Thank you for registration</div>
+    <a (click)="navigateBack()" class="cursor-pointer">Go back</a>
+  </div>
+</ng-template>

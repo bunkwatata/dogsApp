@@ -2,13 +2,13 @@
   <h2 class="py-1 py-md-3">Dogs List</h2>
 
   <form [formGroup]="filtersForm">
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="standard">
       <mat-label>Select breed</mat-label>
       <input
+        matInput
         type="text"
         placeholder="Select breed"
         aria-label="Breed"
-        matInput
         formControlName="breed"
         [matAutocomplete]="auto"
       />
