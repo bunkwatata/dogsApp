@@ -68,6 +68,10 @@ export class DogsListComponent implements OnInit, OnDestroy {
     this.subcription.unsubscribe();
   }
 
+  onClearBreedFilter(): void {
+    this.filtersForm.get('breed')?.setValue('');
+  }
+
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
     if (!this.hasMoreImages) {

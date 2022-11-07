@@ -2,6 +2,10 @@
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
 
+.clear-button {
+  border: unset;
+  background: transparent;
+}
 .gallery {
   @include media-breakpoint-up(sm) {
     -moz-column-count: 2;

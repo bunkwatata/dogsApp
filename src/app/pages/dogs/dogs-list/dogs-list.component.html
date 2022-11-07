@@ -1,28 +1,42 @@
-<form [formGroup]="filtersForm">
-  <mat-form-field appearance="fill">
-    <mat-label>Select breed</mat-label>
-    <input
-      type="text"
-      placeholder="Select breed"
-      aria-label="Breed"
-      matInput
-      formControlName="breed"
-      [matAutocomplete]="auto"
-    />
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-      <mat-option *ngFor="let breed of filteredBreedList" [value]="breed">
-        {{ breed | titlecase }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-</form>
+<div>
+  <h2 class="py-1 py-md-3">Dogs List</h2>
 
-<div class="gallery">
-  <ng-container *ngFor="let imageUrl of imagesUrlList; let index = index">
-    <img
-      [src]="imageUrl"
-      alt="dogImage"
-      class="w-100 shadow-1-strong rounded mb-4"
-    />
-  </ng-container>
+  <form [formGroup]="filtersForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Select breed</mat-label>
+      <input
+        type="text"
+        placeholder="Select breed"
+        aria-label="Breed"
+        matInput
+        formControlName="breed"
+        [matAutocomplete]="auto"
+      />
+      <button
+        *ngIf="breedFilterValue"
+        matSuffix
+        mat-icon-button
+        (click)="onClearBreedFilter()"
+        aria-label="Clear"
+        class="clear-button"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let breed of filteredBreedList" [value]="breed">
+          {{ breed | titlecase }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+
+  <div class="gallery">
+    <ng-container *ngFor="let imageUrl of imagesUrlList; let index = index">
+      <img
+        [src]="imageUrl"
+        alt="dogImage"
+        class="w-100 shadow-1-strong rounded mb-4"
+      />
+    </ng-container>
+  </div>
 </div>
