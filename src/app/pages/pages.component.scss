@@ -1,7 +1,23 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
 .pages-header {
-  height: 5rem;
+  height: 9rem;
+
+  @include media-breakpoint-up(md) {
+    height: 5rem;
+  }
+
+  .nav-item:hover {
+    text-decoration: underline;
+  }
 }
 
 .pages-content {
-  padding-top: 6rem;
+  padding-top: 10rem;
+
+  @include media-breakpoint-up(md) {
+    padding-top: 6rem;
+  }
 }
