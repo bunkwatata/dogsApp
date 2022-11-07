@@ -18,6 +18,11 @@
             aria-label="email"
             formControlName="email"
           />
+          <mat-error>
+            <dogs-app-form-error
+              [errors]="getControlErrors('email')"
+            ></dogs-app-form-error>
+          </mat-error>
         </mat-form-field>
 
         <!-- Registration Number -->
@@ -30,6 +35,11 @@
             aria-label="registration Number"
             formControlName="dogRegistrationNumber"
           />
+          <mat-error>
+            <dogs-app-form-error
+              [errors]="getControlErrors('dogRegistrationNumber')"
+            ></dogs-app-form-error>
+          </mat-error>
         </mat-form-field>
 
         <!-- Birth date -->
@@ -49,6 +59,11 @@
             [for]="picker"
           ></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
+          <mat-error>
+            <dogs-app-form-error
+              [errors]="getControlErrors('dogBirthDate')"
+            ></dogs-app-form-error>
+          </mat-error>
         </mat-form-field>
 
         <!-- Description -->
@@ -62,6 +77,12 @@
             aria-label="description"
             formControlName="description"
           >
+          <mat-error>
+            <dogs-app-form-error
+            [errors]="getControlErrors('description')"
+          ></dogs-app-form-error>
+        </mat-error>
+
           </textarea>
         </mat-form-field>
 

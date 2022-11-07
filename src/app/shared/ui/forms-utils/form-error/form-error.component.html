@@ -1,0 +1,41 @@
+<span class="invalid-input d-block">
+  <ng-container *ngIf="errors && getErrorName() as errorName; else otherError">
+    <ng-container [ngSwitch]="errorName">
+      <ng-container *ngSwitchCase="'required'"
+        >This field is required
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'email'">
+        The e-mail address is invalid
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'minlength'">
+        The field must contain at least { errors['minlength']['requiredLength'],
+        plural, =1 {1 character} =2 {2 characters} =3 {3 characters} =4 {4
+        characters} other
+        {{{errors['minlength']['requiredLength']}} characters}}
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'maxlength'">
+        The field may contain up to { errors['maxlength']['requiredLength'],
+        plural, =1 {1 character} =2 {2 characters} =3 {3 characters} =4 {4
+        characters} other
+        {{{errors['maxlength']['requiredLength']}} characters}}
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'min'"
+        ><span>The minimum value is</span>
+        {{ errors["min"]["min"] }}</ng-container
+      >
+      <ng-container *ngSwitchCase="'max'"
+        ><span>The maximum value is</span>
+        {{ errors["max"]["max"] }}</ng-container
+      >
+      <ng-container *ngSwitchDefault>
+        <ng-container *ngTemplateOutlet="otherError"></ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</span>
+
+<ng-template #otherError> The value is incorrect</ng-template>

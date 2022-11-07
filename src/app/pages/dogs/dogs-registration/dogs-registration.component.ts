@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormGroup, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 
@@ -10,6 +10,7 @@ import { DogsRegistrationFormBuilder } from './dogs-registraion-form.builder';
   templateUrl: './dogs-registration.component.html',
   styleUrls: ['./dogs-registration.component.scss'],
   providers: [DogsRegistrationFormBuilder],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DogsRegistrationComponent implements OnInit {
   registrationForm: FormGroup = new FormGroup({});
@@ -39,5 +40,13 @@ export class DogsRegistrationComponent implements OnInit {
     this.router.navigate(['../'], {
       relativeTo: this.activatedRoute,
     });
+  }
+
+  getControlErrors(controlName: string): ValidationErrors | null {
+    const control = this.registrationForm.get(controlName);
+    if (control) {
+      return control.errors;
+    }
+    return null;
   }
 }
