@@ -10,6 +10,7 @@ interface DogsFiltersFormValues {
 @Component({
   selector: 'dogs-app-dogs-list',
   templateUrl: './dogs-list.component.html',
+  styleUrls: ['./dogs-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DogsListComponent implements OnInit, OnDestroy {

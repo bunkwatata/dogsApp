@@ -17,40 +17,12 @@
   </mat-form-field>
 </form>
 
-<div class="row">
-  <!-- First column -->
-  <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-    <ng-container *ngFor="let imageUrl of imagesUrlList; let index = index">
-      <img
-        *ngIf="index % 3 === 0"
-        [src]="imageUrl"
-        alt="dogImage"
-        class="w-100 shadow-1-strong rounded mb-4"
-      />
-    </ng-container>
-  </div>
-
-  <!-- Second column -->
-  <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-    <ng-container *ngFor="let imageUrl of imagesUrlList; let index = index">
-      <img
-        *ngIf="index % 3 === 1"
-        [src]="imageUrl"
-        alt="dogImage"
-        class="w-100 shadow-1-strong rounded mb-4"
-      />
-    </ng-container>
-  </div>
-
-  <!-- Third column -->
-  <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-    <ng-container *ngFor="let imageUrl of imagesUrlList; let index = index">
-      <img
-        *ngIf="index % 3 === 2"
-        [src]="imageUrl"
-        alt="dogImage"
-        class="w-100 shadow-1-strong rounded mb-4"
-      />
-    </ng-container>
-  </div>
+<div class="gallery">
+  <ng-container *ngFor="let imageUrl of imagesUrlList; let index = index">
+    <img
+      [src]="imageUrl"
+      alt="dogImage"
+      class="w-100 shadow-1-strong rounded mb-4"
+    />
+  </ng-container>
 </div>
