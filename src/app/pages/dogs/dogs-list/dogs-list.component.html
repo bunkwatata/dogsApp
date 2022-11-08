@@ -1,7 +1,9 @@
 <div>
-  <h2 class="py-1 py-md-3">Dogs List</h2>
+  <h2 class="pt-1 pt-md-3">Dogs List</h2>
+  <span class="text-secondary">Choose a bulldog, for example</span>
 
-  <form [formGroup]="filtersForm">
+  <form [formGroup]="filtersForm" class="pt-1 pt-md-3">
+    <!-- Breed -->
     <mat-form-field appearance="standard">
       <mat-label>Select breed</mat-label>
       <input
@@ -10,23 +12,43 @@
         placeholder="Select breed"
         aria-label="Breed"
         formControlName="breed"
-        [matAutocomplete]="auto"
+        [matAutocomplete]="breedAutocomplete"
       />
       <button
-        *ngIf="breedFilterValue"
+        *ngIf="breed"
         matSuffix
         mat-icon-button
-        (click)="onClearBreedFilter()"
+        (click)="onClearFromControlFilter('breed')"
         aria-label="Clear"
         class="clear-button"
       >
         <mat-icon>close</mat-icon>
       </button>
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-autocomplete autoActiveFirstOption #breedAutocomplete>
         <mat-option *ngFor="let breed of filteredBreedList" [value]="breed">
           {{ breed | titlecase }}
         </mat-option>
       </mat-autocomplete>
+    </mat-form-field>
+
+    <!-- Sub breed -->
+    <mat-form-field
+      *ngIf="subBreedList?.length"
+      appearance="standard"
+      class="ms-4"
+    >
+      <mat-label>Select sub breed</mat-label>
+
+      <mat-select
+        placeholder="Select sub breed"
+        aria-label="Sub breed"
+        formControlName="subBreed"
+      >
+        <mat-option>All</mat-option>
+        <mat-option *ngFor="let subBreed of subBreedList" [value]="subBreed">
+          {{ subBreed | titlecase }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
   </form>
 

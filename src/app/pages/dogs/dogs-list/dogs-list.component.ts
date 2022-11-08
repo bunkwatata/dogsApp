@@ -8,10 +8,12 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DogsService } from '@data-access/dogs/dogs.service';
+import { Breed } from '@shared/models/breed.model';
 import { Subscription } from 'rxjs';
 
 interface DogsFiltersFormValues {
   breed: string;
+  subBreed: string;
 }
 
 @Component({
@@ -21,26 +23,36 @@ interface DogsFiltersFormValues {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DogsListComponent implements OnInit, OnDestroy {
+  breeds!: Breed;
   breedList!: string[];
+
   filtersForm: FormGroup = new FormGroup({});
   imagesUrlList: string[] = [];
   fetchImagesCount: number = 24;
   hasMoreImages: boolean = false;
 
-  get filteredBreedList(): string[] {
-    const breedFilterValue = this.filtersForm.get('breed')?.value;
+  get breed(): string {
+    return this.filtersForm.get('breed')?.value;
+  }
 
-    if (!breedFilterValue || !this.breedList.length) {
+  get subBreed(): string {
+    return this.filtersForm.get('subBreed')?.value;
+  }
+
+  get filteredBreedList(): string[] {
+    if (!this.breed || !this.breedList.length) {
       return this.breedList;
     }
-
     return this.breedList.filter((breed) =>
-      breed.toString().toLowerCase().includes(breedFilterValue.toLowerCase())
+      breed.toString().toLowerCase().includes(this.breed.toLowerCase())
     );
   }
 
-  get breedFilterValue(): string {
-    return this.filtersForm.get('breed')?.value;
+  get subBreedList(): string[] | null {
+    if (!this.breeds || !this.breed) {
+      return null;
+    }
+    return this.breeds[this.breed];
   }
 
   private readonly subcription: Subscription = new Subscription();
@@ -53,14 +65,13 @@ export class DogsListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.createFiltersForm();
-    this.dogsService
-      .getBreedsList()
-      .subscribe((breedList) => (this.breedList = Object.keys(breedList)));
+    this.dogsService.getBreedsList().subscribe((breedList) => {
+      this.breeds = breedList;
+      this.breedList = Object.keys(breedList);
+    });
 
     this.subcription.add(
-      this.filtersForm.valueChanges.subscribe((filterValues) =>
-        this.onFiltersValuesChanges(filterValues)
-      )
+      this.filtersForm.valueChanges.subscribe(() => this.fetchImages())
     );
   }
 
@@ -68,8 +79,8 @@ export class DogsListComponent implements OnInit, OnDestroy {
     this.subcription.unsubscribe();
   }
 
-  onClearBreedFilter(): void {
-    this.filtersForm.get('breed')?.setValue('');
+  onClearFromControlFilter(controlName: string): void {
+    this.filtersForm.get(controlName)?.setValue('');
   }
 
   @HostListener('window:scroll', ['$event'])
@@ -83,40 +94,63 @@ export class DogsListComponent implements OnInit, OnDestroy {
       document.documentElement.offsetHeight;
     const max = document.documentElement.scrollHeight;
     if (pos === max) {
-      this.fetchBreedImages(this.breedFilterValue, false);
+      this.fetchImages(true);
     }
   }
 
-  private onFiltersValuesChanges(filterValues: DogsFiltersFormValues): void {
-    this.fetchBreedImages(filterValues.breed, true);
+  private fetchImages(concatResults: boolean = false): void {
+    if (!this.breed || !this.breed.length) {
+      this.imagesUrlList = [];
+      return;
+    }
+
+    if (!this.breedList.some((_breed) => _breed === this.breed)) {
+      return;
+    }
+
+    if (
+      !this.breeds[this.breed].some((_subBreed) => _subBreed === this.subBreed)
+    ) {
+      this.fetchBreedImages(this.breed, concatResults);
+      return;
+    }
+    this.fetchSubBreedImages(this.breed, this.subBreed, concatResults);
   }
 
   private createFiltersForm(): void {
     this.filtersForm = this.formBuilder.group({
       breed: '',
+      subBreed: '',
     });
   }
 
-  private fetchBreedImages(breed: string, isNewBreed: boolean): void {
-    if (!breed || !breed.length) {
-      this.imagesUrlList = [];
-      return;
-    }
-
-    if (!this.breedList.some((_breed) => _breed === breed)) {
-      return;
-    }
-
+  private fetchBreedImages(breed: string, concatResults: boolean): void {
     this.dogsService
       .getBreedImagesRandomList(breed, this.fetchImagesCount)
       .subscribe((imagesUrlList) => {
-        this.hasMoreImages = imagesUrlList.length === this.fetchImagesCount;
-        if (isNewBreed) {
-          this.imagesUrlList = imagesUrlList;
-        } else {
-          this.imagesUrlList = [...this.imagesUrlList, ...imagesUrlList];
-        }
-        this.changeDetectorRef.markForCheck();
+        this.setImages(imagesUrlList, concatResults);
       });
+  }
+
+  private fetchSubBreedImages(
+    breed: string,
+    subBreed: string,
+    concatResults: boolean
+  ): void {
+    this.dogsService
+      .getSubBreedImagesRandomList(breed, subBreed, this.fetchImagesCount)
+      .subscribe((imagesUrlList) => {
+        this.setImages(imagesUrlList, concatResults);
+      });
+  }
+
+  private setImages(imagesUrlList: string[], concatResults: boolean): void {
+    this.hasMoreImages = imagesUrlList.length === this.fetchImagesCount;
+    if (concatResults) {
+      this.imagesUrlList = [...this.imagesUrlList, ...imagesUrlList];
+    } else {
+      this.imagesUrlList = imagesUrlList;
+    }
+    this.changeDetectorRef.markForCheck();
   }
 }
