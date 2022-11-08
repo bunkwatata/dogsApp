@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ForgotPasswordComponent implements OnInit {
   forgotPasswordFormError: boolean = false;
   forgotPasswordForm: FormGroup = new FormGroup({});
+  formSubmitted: boolean = false;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -34,6 +35,7 @@ export class ForgotPasswordComponent implements OnInit {
     }
 
     this.forgotPasswordFormError = false;
+    this.formSubmitted = true;
   }
 
   private createLoginForm(): void {
